@@ -78,7 +78,9 @@ using namespace std::literals::string_literals;
 static void dump_header_info(log_t* log) {
   auto fingerprint = GetProperty("ro.build.fingerprint", "unknown");
   auto revision = GetProperty("ro.revision", "unknown");
+  auto tequila_version = GetProperty("ro.tequila.version", "unknown");
 
+  _LOG(log, logtype::HEADER, "tequilaOS Version: '%s'\n", tequila_version.c_str());
   _LOG(log, logtype::HEADER, "Build fingerprint: '%s'\n", fingerprint.c_str());
   _LOG(log, logtype::HEADER, "Revision: '%s'\n", revision.c_str());
   _LOG(log, logtype::HEADER, "ABI: '%s'\n", ABI_STRING);
