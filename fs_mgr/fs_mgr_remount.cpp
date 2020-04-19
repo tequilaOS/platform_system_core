@@ -382,7 +382,8 @@ bool RemountPartition(Fstab& fstab, Fstab& mounts, FstabEntry& entry) {
     fs_mgr_set_blk_ro(blk_device, false);
 
     // Find system-as-root mount point?
-    if ((mount_point == "/system") && !GetEntryForMountPoint(&mounts, mount_point) &&
+    if ((mount_point == "/system" || mount_point == "/system_root") &&
+        !GetEntryForMountPoint(&mounts, mount_point) &&
         GetEntryForMountPoint(&mounts, "/")) {
         mount_point = "/";
     }
@@ -625,7 +626,7 @@ int main(int argc, char* argv[]) {
     // If somehow this executable is delivered on a "user" build, it can
     // not function, so providing a clear message to the caller rather than
     // letting if fall through and provide a lot of confusing failure messages.
-    if (!ALLOW_ADBD_DISABLE_VERITY || !android::base::GetBoolProperty("ro.debuggable", false)) {
+    if (!ALLOW_ADBD_DISABLE_VERITY) {
         LOG(ERROR) << "Device must be userdebug build";
         return EXIT_FAILURE;
     }
